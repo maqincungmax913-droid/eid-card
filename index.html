@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Eid Mubarak</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to top, #020111, #191970, #000);
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      position: absolute;
+      top: 30%;
+      width: 100%;
+      z-index: 2;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: gold;
+      font-size: 55px;
+      margin-bottom: 15px;
+    }
+
+    .arabic {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .typing {
+      font-size: 18px;
+      color: #ddd;
+      min-height: 40px;
+    }
+
+    .name {
+      margin-top: 25px;
+      font-size: 20px;
+      color: pink;
+    }
+
+    /* 🌙 Moon */
+    .moon {
+      position: absolute;
+      top: 80px;
+      right: 40px;
+      width: 90px;
+      height: 90px;
+      background: radial-gradient(circle, #fff 40%, transparent 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 40px #fff;
+    }
+
+    /* ⭐ Stars */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%,100% {opacity:0.2;}
+      50% {opacity:1;}
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    /* 📱 Responsive (Reels style) */
+    @media (max-width: 600px) {
+      h1 { font-size: 42px; }
+      .arabic { font-size: 22px; }
+      .typing { font-size: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 🌙 Moon -->
+<div class="moon"></div>
+
+<!-- ⭐ Stars -->
+<script>
+for (let i = 0; i < 70; i++) {
+  let star = document.createElement("div");
+  star.className = "star";
+  star.style.top = Math.random() * window.innerHeight + "px";
+  star.style.left = Math.random() * window.innerWidth + "px";
+  document.body.appendChild(star);
+}
+</script>
+
+<div class="container">
+  <h1>🌙 Eid Mubarak</h1>
+
+  <div class="arabic">
+    كل عام وأنتم بخير
+  </div>
+
+  <div class="typing" id="typing"></div>
+
+  <div class="name">
+    Dimas <br>
+    & <br>
+    Family 
+  </div>
+</div>
+
+<canvas id="fireworks"></canvas>
+
+<!-- 🔊 Sound Takbir -->
+<audio id="takbir" autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* 🎆 Fireworks */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function createFirework(x, y) {
+  for (let i = 0; i < 70; i++) {
+    particles.push({
+      x, y,
+      speedX: (Math.random() - 0.5) * 6,
+      speedY: (Math.random() - 0.5) * 6,
+      life: 100
+    });
+  }
+}
+
+function update() {
+  ctx.fillStyle = "rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach((p,i)=>{
+    p.x += p.speedX;
+    p.y += p.speedY;
+    p.life--;
+
+    ctx.fillStyle = "hsl(" + Math.random()*360 + ",100%,60%)";
+    ctx.fillRect(p.x,p.y,2,2);
+
+    if(p.life<=0) particles.splice(i,1);
+  });
+
+  requestAnimationFrame(update);
+}
+
+setInterval(()=>{
+  createFirework(Math.random()*canvas.width, Math.random()*canvas.height/2);
+},700);
+
+update();
+
+/* ⌨️ Typing Effect */
+const text = "May your heart be filled with peace, your home with joy, and your life with endless blessings ✨";
+let i = 0;
+
+function typing() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typing, 40);
+  }
+}
+typing();
+</script>
+
+</body>
+</html>
